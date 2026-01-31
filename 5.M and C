@@ -1,0 +1,33 @@
+from collections import deque
+
+def valid(s):
+    ml, cl, _ = s
+    mr, cr = 3 - ml, 3 - cl
+    return 0 <= ml <= 3 and 0 <= cl <= 3 and (ml == 0 or ml >= cl) and (mr == 0 or mr >= cr)
+
+def neighbors(s):
+    ml, cl, b = s
+    for m in range(3):
+        for c in range(3):
+            if 1 <= m + c <= 2:
+                if b == 1:
+                    ns = (ml - m, cl - c, 0)
+                else:
+                    ns = (ml + m, cl + c, 1)
+                if valid(ns):
+                    yield ns
+
+def bfs():
+    start, goal = (3,3,1), (0,0,0)
+    q, visited = deque([(start, [start])]), {start}
+    while q:
+        s, path = q.popleft()
+        if s == goal:
+            return path
+        for ns in neighbors(s):
+            if ns not in visited:
+                visited.add(ns)
+                q.append((ns, path + [ns]))
+
+for step in bfs():
+    print(f"M_left: {step[0]}, C_left: {step[1]}, Boat: {'left' if step[2] else 'right'}")
