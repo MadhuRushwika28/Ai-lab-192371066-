@@ -1,0 +1,22 @@
+% Facts: planet(Name, DistanceFromSunInMillionKm, DiameterInKm, HasRings).
+planet(mercury, 57.9, 4879, no).
+planet(venus, 108.2, 12104, no).
+planet(earth, 149.6, 12756, no).
+planet(mars, 227.9, 6792, no).
+planet(jupiter, 778.3, 142984, yes).
+planet(saturn, 1427.0, 120536, yes).
+planet(uranus, 2871.0, 51118, yes).
+planet(neptune, 4497.1, 49528, yes).
+
+% Query: find planets with rings
+planets_with_rings(Name) :-
+    planet(Name, _, _, yes).
+
+% Query: find planets closer than a given distance (million km)
+closer_than(Distance, Name) :-
+    planet(Name, Dist, _, _),
+    Dist < Distance.
+
+% Query: get diameter of a planet
+diameter_of(Name, Diameter) :-
+    planet(Name, _, Diameter, _).
