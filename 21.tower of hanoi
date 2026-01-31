@@ -1,0 +1,12 @@
+% move(N, Source, Target, Auxiliary)
+% Move N disks from Source to Target using Auxiliary
+
+move(1, Source, Target, _) :-
+    format("Move disk 1 from ~w to ~w~n", [Source, Target]).
+
+move(N, Source, Target, Auxiliary) :-
+    N > 1,
+    M is N - 1,
+    move(M, Source, Auxiliary, Target),
+    format("Move disk ~w from ~w to ~w~n", [N, Source, Target]),
+    move(M, Auxiliary, Target, Source).
