@@ -1,0 +1,50 @@
+% State representation: state(MonkeyPos, BoxPos, HasBanana, MonkeyHeight)
+% Positions: left, middle, right
+% MonkeyHeight: on_floor, on_box
+% HasBanana: yes/no
+
+% Initial state: monkey left, box middle, no banana, on floor
+initial_state(state(left, middle, no, on_floor)).
+
+% Goal state: HasBanana = yes
+goal_state(state(_, _, yes, _)).
+
+% Actions
+
+% Move monkey to a new position if on floor
+move(state(Pos, BoxPos, Banana, on_floor), move(NewPos), state(NewPos, BoxPos, Banana, on_floor)) :-
+    member(NewPos, [left, middle, right]),
+    NewPos \= Pos.
+
+% Push box (monkey and box must be at same position and monkey on floor)
+push(state(Pos, Pos, Banana, on_floor), push(NewPos), state(NewPos, NewPos, Banana, on_floor)) :-
+    member(NewPos, [left, middle, right]),
+    NewPos \= Pos.
+
+% Climb on box (monkey and box at same position)
+climb(state(Pos, Pos, Banana, on_floor), climb, state(Pos, Pos, Banana, on_box)).
+
+% Climb down from box
+climb_down(state(Pos, BoxPos, Banana, on_box), climb_down, state(Pos, BoxPos, Banana, on_floor)).
+
+% Grab banana (monkey must be at middle, on box, no banana yet)
+grab(state(middle, middle, no, on_box), grab, state(middle, middle, yes, on_box)).
+
+% State transition: apply action
+transition(State, Action, NewState) :-
+    move(State, Action, NewState);
+    push(State, Action, NewState);
+    climb(State, Action, NewState);
+    climb_down(State, Action, NewState);
+    grab(State, Action, NewState).
+
+% Solve the problem by searching action sequences
+solve(State, [], State) :-
+    goal_state(State).
+
+solve(State, [Action|Actions], FinalState) :-
+    transition(State, Action, NextState),
+    solve(NextState, Actions, FinalState).
+
+% To find solution:
+% ?- initial_state(Start), solve(Start, Actions, Final), write(Actions), nl.
