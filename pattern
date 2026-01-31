@@ -1,0 +1,16 @@
+% match_pattern(List) succeeds if List matches pattern [Head, _, Tail...]
+match_pattern([Head, _, Tail | _]) :-
+    format('Head: ~w, Tail starts with: ~w~n', [Head, Tail]).
+
+% Example: match a list starting with [a, b, c, ...]
+match_abc([a, b, c | Rest]) :-
+    format('List starts with [a, b, c] and rest is ~w~n', [Rest]).
+
+% Match list with first two elements equal
+match_first_two_equal([X, X | _]) :-
+    format('First two elements are equal: ~w~n', [X]).
+
+% Generic pattern matcher: matches any list with length N
+match_length(List, N) :-
+    length(List, N),
+    format('List ~w has length ~d~n', [List, N]).
