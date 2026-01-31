@@ -1,0 +1,11 @@
+?- teacher_for_subject(sub1, T).
+T = 'Alice Johnson'.
+
+?- subjects_for_student(s1, Sub).
+Sub = 'Mathematics' ;
+Sub = 'Physics'.
+
+?- students_of_teacher(t1, Student).
+Student = 'John Doe' ;
+Student = 'Mary Jane' ;
+Student = 'Alex Turner'.
