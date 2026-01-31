@@ -1,0 +1,22 @@
+% Facts: disease(Name).
+disease(diabetes).
+disease(hypertension).
+disease(obesity).
+disease(celiac).
+disease(anemia).
+
+% Facts: diet(Disease, DietPlan).
+diet(diabetes, 'Low sugar, high fiber diet').
+diet(hypertension, 'Low sodium, DASH diet').
+diet(obesity, 'Calorie controlled, balanced diet').
+diet(celiac, 'Gluten-free diet').
+diet(anemia, 'Iron rich diet with vitamin C').
+
+% Rule: suggest_diet(Disease, DietPlan)
+suggest_diet(Disease, DietPlan) :-
+    disease(Disease),
+    diet(Disease, DietPlan).
+
+% Query examples:
+% ?- suggest_diet(diabetes, Diet).
+% Diet = 'Low sugar, high fiber diet'.
