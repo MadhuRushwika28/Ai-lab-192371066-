@@ -1,0 +1,22 @@
+% Facts: disease(Name, ListOfSymptoms).
+disease(flu, [fever, cough, headache, fatigue]).
+disease(cold, [cough, sneezing, sore_throat]).
+disease(malaria, [fever, chills, sweating, headache]).
+disease(dengue, [fever, headache, rash, joint_pain]).
+disease(covid19, [fever, cough, fatigue, loss_of_taste]).
+
+% Rule to check if all symptoms are present
+has_all_symptoms([], _).
+has_all_symptoms([Symptom|Rest], SymptomsObserved) :-
+    member(Symptom, SymptomsObserved),
+    has_all_symptoms(Rest, SymptomsObserved).
+
+% Diagnose diseases based on symptoms
+diagnose(SymptomsObserved, Disease) :-
+    disease(Disease, SymptomsNeeded),
+    has_all_symptoms(SymptomsNeeded, SymptomsObserved).
+
+% Example query:
+% ?- diagnose([fever, cough, headache, fatigue], Disease).
+% Disease = flu ;
+% Disease = covid19.
