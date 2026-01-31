@@ -1,0 +1,19 @@
+import math
+
+def sigmoid(x): return 1 / (1 + math.exp(-x))
+
+# Weights (manually set for XOR)
+w_ih = [[20, 20], [20, 20]]  # input to hidden
+b_h = [-30, 10]
+w_ho = [20, -20]  # hidden to output
+b_o = -10
+
+def predict(x1, x2):
+    h1 = sigmoid(x1*w_ih[0][0] + x2*w_ih[1][0] + b_h[0])
+    h2 = sigmoid(x1*w_ih[0][1] + x2*w_ih[1][1] + b_h[1])
+    o = sigmoid(h1*w_ho[0] + h2*w_ho[1] + b_o)
+    return o
+
+for x1 in [0,1]:
+    for x2 in [0,1]:
+        print(f"Input: {x1},{x2} -> Output: {predict(x1,x2):.4f}")
