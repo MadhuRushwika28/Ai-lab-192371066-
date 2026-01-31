@@ -1,0 +1,42 @@
+% Facts
+parent(john, mary).
+parent(susan, mary).
+parent(mary, alice).
+parent(mary, bob).
+parent(tom, bob).
+
+male(john).
+male(tom).
+male(bob).
+female(susan).
+female(mary).
+female(alice).
+
+% Rules
+mother(M, C) :-
+    parent(M, C),
+    female(M).
+
+father(F, C) :-
+    parent(F, C),
+    male(F).
+
+grandparent(GP, GC) :-
+    parent(GP, P),
+    parent(P, GC).
+
+sibling(X, Y) :-
+    parent(P, X),
+    parent(P, Y),
+    X \= Y.
+
+% Sample goal: Is someone a grandparent of someone else?
+% Query example:
+% ?- grandparent(john, alice).
+% true.
+
+% ?- mother(M, bob).
+% M = mary.
+
+% ?- sibling(alice, bob).
+% true.
