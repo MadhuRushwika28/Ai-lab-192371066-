@@ -1,0 +1,13 @@
+<!-- Title tag example -->
+<h1 title="This is the main heading">Welcome to My WordPress Blog</h1>
+
+<p>This is a paragraph introducing the blog.</p>
+
+<!-- Anchor tag example -->
+<p>Visit <a href="https://www.example.com" title="Example Website" target="_blank" rel="noopener noreferrer">Example Website</a> for more info.</p>
+
+<!-- Image with title attribute -->
+<img src="https://via.placeholder.com/150" alt="Sample Image" title="This is a sample image">
+
+<!-- Another anchor tag linking internally -->
+<p>Check out my <a href="/about-us" title="About Us Page">About Us</a> page to know more about me.</p>
