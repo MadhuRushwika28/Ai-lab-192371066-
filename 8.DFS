@@ -1,0 +1,25 @@
+def dfs(graph, node, visited=None, order=None):
+    if visited is None:
+        visited = set()
+    if order is None:
+        order = []
+
+    visited.add(node)
+    order.append(node)
+
+    for neighbor in graph.get(node, []):
+        if neighbor not in visited:
+            dfs(graph, neighbor, visited, order)
+    return order
+
+# Example usage:
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+
+print("DFS traversal:", dfs(graph, 'A'))
