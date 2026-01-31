@@ -1,0 +1,24 @@
+% Facts: name(Person, Name).
+name(john, 'John Doe').
+name(mary, 'Mary Smith').
+name(alex, 'Alex Johnson').
+
+% Facts: dob(Person, date(Year, Month, Day)).
+dob(john, date(1990, 5, 15)).
+dob(mary, date(1985, 12, 2)).
+dob(alex, date(2000, 7, 23)).
+
+% Example query predicates:
+
+% Get name by person ID
+get_name(Person, Name) :- name(Person, Name).
+
+% Get DOB by person ID
+get_dob(Person, DOB) :- dob(Person, DOB).
+
+% Find person by name
+find_person_by_name(Name, Person) :- name(Person, Name).
+
+% Find person by birth year
+find_person_by_year(Year, Person) :-
+    dob(Person, date(Year, _, _)).
