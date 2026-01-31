@@ -1,0 +1,71 @@
+import math
+from collections import Counter
+
+def entropy(labels):
+    total = len(labels)
+    counts = Counter(labels)
+    return -sum((count/total) * math.log2(count/total) for count in counts.values())
+
+def info_gain(data, labels, feature_index):
+    total_entropy = entropy(labels)
+    values = set(row[feature_index] for row in data)
+    weighted_entropy = 0
+    for val in values:
+        subset_labels = [labels[i] for i, row in enumerate(data) if row[feature_index] == val]
+        weighted_entropy += (len(subset_labels) / len(labels)) * entropy(subset_labels)
+    return total_entropy - weighted_entropy
+
+def majority_label(labels):
+    return Counter(labels).most_common(1)[0][0]
+
+def build_tree(data, labels, features):
+    if len(set(labels)) == 1:
+        return labels[0]
+    if not features:
+        return majority_label(labels)
+
+    gains = [(feature, info_gain(data, labels, feature)) for feature in features]
+    best_feature = max(gains, key=lambda x: x[1])[0]
+
+    tree = {best_feature: {}}
+    feature_values = set(row[best_feature] for row in data)
+
+    for value in feature_values:
+        subset_data = [row for row in data if row[best_feature] == value]
+        subset_labels = [labels[i] for i, row in enumerate(data) if row[best_feature] == value]
+        subtree = build_tree(subset_data, subset_labels, [f for f in features if f != best_feature])
+        tree[best_feature][value] = subtree
+
+    return tree
+
+def predict(tree, sample):
+    if not isinstance(tree, dict):
+        return tree
+    feature = next(iter(tree))
+    value = sample[feature]
+    if value in tree[feature]:
+        return predict(tree[feature][value], sample)
+    else:
+        return None
+
+# Example dataset
+# Features: 0 = Weather (Sunny=0, Rainy=1), 1 = Temperature (Hot=0, Cold=1)
+# Labels: Play (No=0, Yes=1)
+data = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1],
+    [0, 0],
+    [1, 0],
+]
+
+labels = [0, 1, 1, 0, 1, 1]
+features = [0, 1]
+
+tree = build_tree(data, labels, features)
+print("Decision Tree:", tree)
+
+# Predict
+sample = [0, 1]  # Sunny, Cold
+print("Prediction for sample:", predict(tree, sample))
