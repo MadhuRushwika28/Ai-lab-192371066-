@@ -1,0 +1,34 @@
+% Dynamic predicate to store inferred facts
+:- dynamic known/1.
+
+% Initial known facts
+known(sunny).
+known(warm).
+
+% Rules (if Conditions then Conclusion)
+rule(happy, [sunny, warm]).
+rule(go_swimming, [happy]).
+rule(go_park, [sunny, warm]).
+rule(stay_home, [cold]).
+
+% Forward chaining inference
+forward_chain :-
+    rule(Conclusion, Conditions),
+    \+ known(Conclusion),
+    all_known(Conditions),
+    assertz(known(Conclusion)),
+    format('Inferred: ~w~n', [Conclusion]),
+    forward_chain.
+forward_chain.  % No more inferences
+
+% Helper predicate: all conditions are known
+all_known([]).
+all_known([H|T]) :-
+    known(H),
+    all_known(T).
+
+% Query to start inference and show all known facts
+run_forward_chain :-
+    forward_chain,
+    format('All known facts:~n'),
+    listing(known).
