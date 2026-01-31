@@ -1,0 +1,33 @@
+from itertools import permutations
+
+def tsp_brute_force(distance_matrix):
+    n = len(distance_matrix)
+    vertices = list(range(n))
+    min_path = None
+    min_cost = float('inf')
+
+    for perm in permutations(vertices[1:]):  # fix start at vertex 0
+        cost = 0
+        prev = 0
+        for city in perm:
+            cost += distance_matrix[prev][city]
+            prev = city
+        cost += distance_matrix[prev][0]  # return to start
+
+        if cost < min_cost:
+            min_cost = cost
+            min_path = (0,) + perm + (0,)
+
+    return min_path, min_cost
+
+# Example distance matrix for 4 cities
+dist = [
+    [0, 10, 15, 20],
+    [10, 0, 35, 25],
+    [15, 35, 0, 30],
+    [20, 25, 30, 0]
+]
+
+path, cost = tsp_brute_force(dist)
+print(f"Optimal path: {path}")
+print(f"Minimum cost: {cost}")
