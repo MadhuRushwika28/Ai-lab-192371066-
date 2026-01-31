@@ -1,0 +1,20 @@
+class VacuumCleaner:
+    def __init__(self):
+        self.location = 'A'
+        self.environment = {'A': 'Dirty', 'B': 'Dirty'}
+
+    def clean(self):
+        for _ in range(4):  # max steps to avoid infinite loop
+            if self.environment[self.location] == 'Dirty':
+                print(f"Cleaning room {self.location}")
+                self.environment[self.location] = 'Clean'
+            else:
+                print(f"Room {self.location} is already clean")
+            # Move to the other room
+            self.location = 'B' if self.location == 'A' else 'A'
+            if all(status == 'Clean' for status in self.environment.values()):
+                print("All rooms are clean.")
+                break
+
+vacuum = VacuumCleaner()
+vacuum.clean()
